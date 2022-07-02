@@ -5,7 +5,6 @@ import Service from "../Service/Service";
 
 const AvailableAppointments = ({ date }) => {
   const [services, setServices] = useState([]);
-
   const [treatment, setTreatment] = useState(null);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const AvailableAppointments = ({ date }) => {
         ))}
       </div>
       {
-        treatment && <BookingModal treatment={treatment}></BookingModal>
+        treatment && <BookingModal date={date} treatment={treatment} setTreatment={setTreatment}></BookingModal>
       }
     </section>
   );
