@@ -4,10 +4,11 @@ import Navbar from "./Pages/Shared/Navbar/Navbar";
 import Home from "./Pages/Home/Home/Home";
 import NotFound from "./Pages/Shared/NotFound/NotFound";
 import Login from "./Pages/Login/Login";
+import Footer from "./Pages/Shared/Footer/Footer";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
@@ -16,6 +17,7 @@ function App() {
 
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
+      <Footer></Footer>
     </div>
   );
 }
