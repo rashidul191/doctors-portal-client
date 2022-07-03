@@ -18,7 +18,7 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <label
-            for="booking-modal"
+            htmlFor="booking-modal"
             className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
@@ -37,7 +37,7 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
               value={format(date, "PP")}
               className="input input-bordered w-full max-w-xs"
             />
-            <select name="slot" class="select select-bordered w-full max-w-xs">
+            <select name="slot" className="select select-bordered w-full max-w-xs">
               {slots.map((slot) => (
                 <option value={slot}>{slot}</option>
               ))}
