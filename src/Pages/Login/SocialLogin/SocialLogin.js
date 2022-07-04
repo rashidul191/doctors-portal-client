@@ -8,9 +8,9 @@ const SocialLogin = () => {
   const location = useLocation();
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   let from = location.state?.from?.pathname || "/";
-  
+
   if (loading) {
-    return <p>Loading........</p>;
+    return <p className="text-center">Loading........</p>;
   }
   
   if (user) {
