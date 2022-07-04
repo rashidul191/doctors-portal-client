@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useRef } from "react";
 import SocialLogin from "./SocialLogin/SocialLogin";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import auth from "../../firebase.init";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Loading from "../Shared/Loading/Loading";
 
+
 const Login = () => {
+  const emailRef = useRef("");
   const navigate = useNavigate();
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(
+        auth
+      );
 
   const {
     register,
@@ -24,15 +29,24 @@ const Login = () => {
     signInWithEmailAndPassword(data?.email, data?.password);
   };
 
-  if (loading) {
-    return <Loading></Loading>
+  const handleForgetPassword = async () => {
+    const email = emailRef.current.value;
+    console.log("Email: ", email);
+    if (email) {
+      await sendPasswordResetEmail(email);
+      alert("Sent email");
+    } else {
+      alert("please enter email");
+    }
+  };
+
+  if (loading || sending) {
+    return <Loading></Loading>;
   }
 
-
-    if (user) {
-      navigate(from, { replace: true });
-    }
-
+  if (user) {
+    navigate(from, { replace: true });
+  }
 
   let errorElement;
   if (error) {
@@ -81,7 +95,7 @@ const Login = () => {
 
             <div className="form-control w-full max-w-xs">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text">Password</span>
               </label>
               <input
                 type="password"
@@ -108,9 +122,43 @@ const Login = () => {
                 )}
               </label>
             </div>
+            {/* <p onClick={handleForgetPassword} className="btn btn-link">Forget Password</p> */}
+
+            <label htmlFor="forget-modal" className="btn btn-link">
+              Forget Password
+            </label>
 
             <input className="btn w-full" type="submit" value="Login" />
           </form>
+
+{/* Forget password start */}
+          <input type="checkbox" id="forget-modal" className="modal-toggle" />
+          <div className="modal modal-bottom sm:modal-middle">
+            <div className="modal-box">
+              <label
+                htmlFor="forget-modal"
+                className="btn btn-sm btn-circle absolute right-2 top-2"
+              >
+                ✕
+              </label>
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="email"
+                ref={emailRef}
+                placeholder="Enter Email"
+                className="input input-bordered w-full max-w-xs"
+                required
+              />
+
+              <p onClick={handleForgetPassword} className="btn">
+                Send Email
+              </p>
+            </div>
+          </div>
+          {/* Forget password end */}
+
           <p>
             <small>
               New to Doctors Portal?{" "}
