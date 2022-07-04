@@ -1,12 +1,14 @@
 import React from "react";
 import SocialLogin from "./SocialLogin/SocialLogin";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import auth from "../../firebase.init";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
@@ -25,9 +27,11 @@ const Login = () => {
     return <p>Loading...........</p>;
   }
 
-  if (user) {
-    navigate("/");
-  }
+
+    if (user) {
+      navigate(from, { replace: true });
+    }
+
 
   let errorElement;
   if (error) {
@@ -109,7 +113,9 @@ const Login = () => {
           <p>
             <small>
               New to Doctors Portal?{" "}
-              <Link to="/register" className="text-primary underline">Create a new account</Link>{" "}
+              <Link to="/register" className="text-primary underline">
+                Create a new account
+              </Link>{" "}
             </small>
           </p>
           <SocialLogin></SocialLogin>

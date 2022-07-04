@@ -1,13 +1,17 @@
 import React from "react";
 import { format } from "date-fns";
+import auth from "../../../firebase.init";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const BookingModal = ({ date, treatment, setTreatment }) => {
+  const [user] = useAuthState(auth);
   const { _id, name, slots } = treatment;
 
   const handleBooking = (event) => {
     event.preventDefault();
     const slot = event.target.slot.value;
-    console.log(_id, name, slot);
+    const phoneNumber = event.target.phoneNumber.value;
+    console.log(_id, name, slot, user.displayName, user.email, phoneNumber);
 
     // to close the modal
     setTreatment(null);
@@ -37,7 +41,10 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
               value={format(date, "PP")}
               className="input input-bordered w-full max-w-xs"
             />
-            <select name="slot" className="select select-bordered w-full max-w-xs">
+            <select
+              name="slot"
+              className="select select-bordered w-full max-w-xs"
+            >
               {slots.map((slot) => (
                 <option value={slot}>{slot}</option>
               ))}
@@ -45,20 +52,25 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
             <input
               name="userName"
               type="text"
+              value={user?.displayName || ""}
               placeholder="Full Name"
               className="input input-bordered w-full max-w-xs"
+              required
             />
             <input
               name="email"
-              type="text"
-              placeholder="Email"
+              type="email"
+              value={user?.email}
+              readOnly
               className="input input-bordered w-full max-w-xs"
+              required
             />
             <input
-              name="phone"
+              name="phoneNumber"
               type="text"
               placeholder="Phone Number"
               className="input input-bordered w-full max-w-xs"
+              required
             />
             <input
               type="submit"

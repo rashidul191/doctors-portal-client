@@ -1,19 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
-import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
   const navigate = useNavigate();
-
-  const [
-    createUserWithEmailAndPassword,
-    user,
-    loading,
-    error,
-  ] = useCreateUserWithEmailAndPassword(auth);
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
   const {
@@ -24,21 +24,22 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    await createUserWithEmailAndPassword(data?.email, data?.password)
-    await updateProfile({ displayName:data.name });
-    
+    await createUserWithEmailAndPassword(data?.email, data?.password);
+    await updateProfile({ displayName: data.name });
   };
 
   if (loading || updating) {
     return <p>Loading...........</p>;
   }
 
-  if (user) {
-    navigate("/");
-  }
+
+    if (user) {
+      navigate(from, { replace: true });
+    }
+
 
   let errorElement;
-  if (error ||updateError ) {
+  if (error || updateError) {
     errorElement = <p className="text-center text-error">{error?.message}</p>;
   }
   return (
@@ -111,14 +112,17 @@ const Register = () => {
                 className="input input-bordered w-full max-w-xs"
                 {...register("password", {
                   required: { value: true, message: "Password is Required" },
+                  minLength: {
+                    value: 6,
+                    message: "Must be 6 characters or longer",
+                  },
+                  patternAlphabet: {
+                    value: /^(?=.*?[a-z])/,
+                    message: "Must at least 1 alphabet letter",
+                  },
                   pattern: {
-                    value: /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,}$/,
-                    message: <ul>
-                        <li>Must be 6 characters or longer</li>
-                        <li>Must at least 1 alphabet letter</li>
-                        <li>Must at least 1 numeric character</li>
-                        <li>Must at least 1 special character</li>
-                    </ul>
+                    value: /^(?=.*?[a-z])(?=.*?[^\w\s])/,
+                    message: "Must at least 1 special character",
                   },
                 })}
               />
@@ -128,7 +132,12 @@ const Register = () => {
                     {errors.password.message}
                   </span>
                 )}
-                    {errors.password?.type === "pattern" && (
+                {errors.password?.type === "minLength" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
+                {errors.password?.type === "pattern" && (
                   <span className="label-text-alt text-red-500">
                     {errors.password.message}
                   </span>
