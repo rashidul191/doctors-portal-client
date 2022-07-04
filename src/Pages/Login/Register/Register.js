@@ -1,14 +1,20 @@
 import React from "react";
-import SocialLogin from "./SocialLogin/SocialLogin";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import auth from "../../firebase.init";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
   const {
     register,
@@ -16,12 +22,14 @@ const Login = () => {
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    signInWithEmailAndPassword(data?.email, data?.password);
+    await createUserWithEmailAndPassword(data?.email, data?.password)
+    await updateProfile({ displayName:data.name });
+    
   };
 
-  if (loading) {
+  if (loading || updating) {
     return <p>Loading...........</p>;
   }
 
@@ -30,20 +38,39 @@ const Login = () => {
   }
 
   let errorElement;
-  if (error) {
+  if (error ||updateError ) {
     errorElement = <p className="text-center text-error">{error?.message}</p>;
   }
-
   return (
     <section className="h-screen flex justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="text-center text-secondary text-2xl font-bold">
-            Please Login
+            Registration
           </h2>
 
           {errorElement}
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Full Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="input input-bordered w-full max-w-xs"
+                {...register("name", {
+                  required: { value: true, message: "Full Name is Required" },
+                })}
+              />
+              <label className="label">
+                {errors.name?.type === "required" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
+            </div>
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -84,9 +111,14 @@ const Login = () => {
                 className="input input-bordered w-full max-w-xs"
                 {...register("password", {
                   required: { value: true, message: "Password is Required" },
-                  minLength: {
-                    value: 6,
-                    message: "Must be 6 characters or longer",
+                  pattern: {
+                    value: /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,}$/,
+                    message: <ul>
+                        <li>Must be 6 characters or longer</li>
+                        <li>Must at least 1 alphabet letter</li>
+                        <li>Must at least 1 numeric character</li>
+                        <li>Must at least 1 special character</li>
+                    </ul>
                   },
                 })}
               />
@@ -96,7 +128,7 @@ const Login = () => {
                     {errors.password.message}
                   </span>
                 )}
-                {errors.password?.type === "minLength" && (
+                    {errors.password?.type === "pattern" && (
                   <span className="label-text-alt text-red-500">
                     {errors.password.message}
                   </span>
@@ -104,12 +136,14 @@ const Login = () => {
               </label>
             </div>
 
-            <input className="btn w-full" type="submit" value="Login" />
+            <input className="btn w-full" type="submit" value="Registration" />
           </form>
           <p>
             <small>
-              New to Doctors Portal?{" "}
-              <Link to="/register" className="text-primary underline">Create a new account</Link>{" "}
+              Already have a account?{" "}
+              <Link to="/login" className="text-primary underline">
+                Login
+              </Link>{" "}
             </small>
           </p>
           <SocialLogin></SocialLogin>
@@ -119,4 +153,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
