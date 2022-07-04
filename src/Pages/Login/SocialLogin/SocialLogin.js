@@ -10,11 +10,12 @@ const SocialLogin = () => {
   if (loading) {
     return <p>Loading........</p>;
   }
+
   if (user) {
     navigate("/");
   }
-  let errorElement;
 
+  let errorElement;
   if (error) {
     errorElement = <p className="text-center text-error">{error?.message}</p>;
   }
@@ -22,8 +23,11 @@ const SocialLogin = () => {
   return (
     <div className="text-center">
       {errorElement}
-      <div class="divider">OR</div>
-      <button onClick={() => signInWithGoogle()} class="btn btn-outline w-full">
+      <div className="divider">OR</div>
+      <button
+        onClick={() => signInWithGoogle()}
+        className="btn btn-outline w-full"
+      >
         Continue With Google
       </button>
     </div>

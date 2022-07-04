@@ -5,16 +5,16 @@ const Login = () => {
   return (
     <section className="h-screen flex justify-center items-center">
       
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="text-center text-secondary text-2xl font-bold">Login page</h2>
+      <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="card-body">
+          <h2 className="text-center text-secondary text-2xl font-bold">Login page</h2>
          <form>
-         <input type="text" placeholder="Type here" class="input input-bordered input-md w-full max-w-xs" />
+         <input type="text" placeholder="Type here" className="input input-bordered input-md w-full max-w-xs" />
          </form>
 
 
-          <div class="card-actions justify-end">
-            <button class="btn w-full ">Login</button>
+          <div className="card-actions justify-end">
+            <button className="btn w-full ">Login</button>
           </div>
           <SocialLogin></SocialLogin>
         </div>
