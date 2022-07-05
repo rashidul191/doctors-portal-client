@@ -1,11 +1,14 @@
 import React, { useRef } from "react";
+import { toast } from "react-toastify";
 import SocialLogin from "./SocialLogin/SocialLogin";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import auth from "../../firebase.init";
-import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import Loading from "../Shared/Loading/Loading";
-
 
 const Login = () => {
   const emailRef = useRef("");
@@ -14,9 +17,7 @@ const Login = () => {
   let from = location.state?.from?.pathname || "/";
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-    const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(
-        auth
-      );
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
 
   const {
     register,
@@ -34,9 +35,9 @@ const Login = () => {
     console.log("Email: ", email);
     if (email) {
       await sendPasswordResetEmail(email);
-      alert("Sent email");
+      toast.success("Sent email");
     } else {
-      alert("please enter email");
+      toast.error("please enter email");
     }
   };
 
@@ -131,7 +132,7 @@ const Login = () => {
             <input className="btn w-full" type="submit" value="Login" />
           </form>
 
-{/* Forget password start */}
+          {/* Forget password start */}
           <input type="checkbox" id="forget-modal" className="modal-toggle" />
           <div className="modal modal-bottom sm:modal-middle">
             <div className="modal-box">
