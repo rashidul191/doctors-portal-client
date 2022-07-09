@@ -16,10 +16,7 @@ const Services = () => {
         <h2 className="text-4xl mt-3">Services We Provide</h2>
       </div>
       <div className=" md:my-16 grid grid-cols-1 md:grid-cols-3 gap-5">
-        <ServiceCard
-          tittle="Fluoride Treatment"
-          img={fluorideIcon}
-        ></ServiceCard>
+        <ServiceCard tittle="Fluoride Treatment" img={fluorideIcon} ></ServiceCard>
         <ServiceCard tittle="Cavity Filling" img={cavityIcon}></ServiceCard>
         <ServiceCard tittle="Teeth Whitening" img={whitening}></ServiceCard>
       </div>
