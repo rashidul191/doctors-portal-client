@@ -6,6 +6,10 @@ import auth from "../../../firebase.init";
 
 const Navbar = () => {
   const [user] = useAuthState(auth);
+  const handleSignOut = () => {
+    signOut(auth);    
+    localStorage.removeItem("accessToken");
+  };
   const menuBar = (
     <>
       <li>
@@ -29,10 +33,7 @@ const Navbar = () => {
         </li>
       )}
       {user ? (
-        <button
-          onClick={() => signOut(auth)}
-          className="btn btn-error text-white"
-        >
+        <button onClick={handleSignOut} className="btn btn-error text-white">
           Sign Out
         </button>
       ) : (
@@ -79,22 +80,26 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-end">
-      <label tabIndex="1"  htmlFor="dashboard-sidebar" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </label>
+        <label
+          tabIndex="1"
+          htmlFor="dashboard-sidebar"
+          className="btn btn-ghost lg:hidden"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h8m-8 6h16"
+            />
+          </svg>
+        </label>
         {/* <label
           htmlFor="dashboard-sidebar"
           className="btn btn-primary drawer-button md:hidden"

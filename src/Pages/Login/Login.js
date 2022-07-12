@@ -9,6 +9,7 @@ import {
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import Loading from "../Shared/Loading/Loading";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -29,6 +30,7 @@ const Login = () => {
     console.log(data);
     signInWithEmailAndPassword(data?.email, data?.password);
   };
+  const [token] = useToken(user)
 
   const handleForgetPassword = async () => {
     const email = emailRef.current.value;
@@ -45,9 +47,11 @@ const Login = () => {
     return <Loading></Loading>;
   }
 
-  if (user) {
-    navigate(from, { replace: true });
-  }
+  
+    if (token) {
+      navigate(from, { replace: true });
+    }
+
 
   let errorElement;
   if (error) {
