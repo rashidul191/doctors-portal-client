@@ -24,7 +24,7 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
 
     console.log(booking);
 
-    fetch("http://localhost:5000/booking", {
+    fetch("https://warm-springs-53250.herokuapp.com/booking", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(booking),

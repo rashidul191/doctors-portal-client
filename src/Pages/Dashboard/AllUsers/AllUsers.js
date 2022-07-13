@@ -7,7 +7,7 @@ import UsersInfo from "./UsersInfo/UsersInfo";
 const AllUsers = () => {
   // react query
   const { data: users, isLoading, refetch } = useQuery("users", () =>
-    fetch("http://localhost:5000/users", {
+    fetch("https://warm-springs-53250.herokuapp.com/users", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -21,7 +21,7 @@ const AllUsers = () => {
   // useEffect fetch
   /* const [allUsers, setAllUsers] = useState([]);
     useEffect(()=>{
-        fetch("http://localhost:5000/users",{
+        fetch("https://warm-springs-53250.herokuapp.com/users",{
             method:"GET",
                  headers:{
             authorization: `Bearer ${localStorage.getItem("accessToken")}`

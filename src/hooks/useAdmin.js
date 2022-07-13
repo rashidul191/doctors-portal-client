@@ -9,7 +9,7 @@ const useAdmin = (user) => {
         const email = user?.email;
 
         if(email){
-            const url =`http://localhost:5000/admin/${email}`
+            const url =`https://warm-springs-53250.herokuapp.com/admin/${email}`
         fetch(url, {
             method:"GET",
             headers:{
