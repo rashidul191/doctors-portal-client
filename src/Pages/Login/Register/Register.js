@@ -106,7 +106,7 @@ const Register = () => {
 
             <div className="form-control w-full max-w-xs">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text">Password</span>
               </label>
               <input
                 type="password"
@@ -135,6 +135,11 @@ const Register = () => {
                   </span>
                 )}
                 {errors.password?.type === "minLength" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
+                {errors.password?.type === "patternAlphabet" && (
                   <span className="label-text-alt text-red-500">
                     {errors.password.message}
                   </span>
