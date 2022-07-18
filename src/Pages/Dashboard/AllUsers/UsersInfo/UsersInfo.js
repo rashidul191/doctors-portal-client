@@ -5,7 +5,7 @@ const UsersInfo = (props) => {
   const { user, index, refetch } = props;
   const { email, role } = user;
   const makeAdmin = () => {
-    fetch(`https://warm-springs-53250.herokuapp.com/user/admin/${email}`, {
+    fetch(`https://desolate-reef-87616.herokuapp.com/user/admin/${email}`, {
       method: "PUT",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

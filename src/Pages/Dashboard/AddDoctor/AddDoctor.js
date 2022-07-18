@@ -14,7 +14,7 @@ const AddDoctor = () => {
 
   // React Query
   const { data: services, isLoading } = useQuery("services", () =>
-    fetch("http://localhost:5000/service").then((res) => res.json())
+    fetch("https://desolate-reef-87616.herokuapp.com/service").then((res) => res.json())
   );
   if (isLoading) {
     return <Loading></Loading>;
@@ -53,7 +53,7 @@ const AddDoctor = () => {
             specialty: data.specialty,
           };
           // send to doctor info database
-          fetch("http://localhost:5000/doctor", {
+          fetch("https://desolate-reef-87616.herokuapp.com/doctor", {
             method: "POST",
             headers: {
               "content-type": "application/json",

@@ -11,7 +11,7 @@ const useToken = (user) => {
 
    if(email){
     
-    fetch(`https://warm-springs-53250.herokuapp.com/user/${email}`, {
+    fetch(`https://desolate-reef-87616.herokuapp.com/user/${email}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

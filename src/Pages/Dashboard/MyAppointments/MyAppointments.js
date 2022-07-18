@@ -16,7 +16,7 @@ const MyAppointments = () => {
       return <Loading></Loading>;
     }
     if (user) {
-      fetch(`https://warm-springs-53250.herokuapp.com/booking?patient=${user.email}`, {
+      fetch(`https://desolate-reef-87616.herokuapp.com/booking?patient=${user.email}`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -50,6 +50,8 @@ const MyAppointments = () => {
               <th>Service</th>
               <th>Date</th>
               <th>Time</th>
+              <th>Price</th>
+              <th>Payment</th>
             </tr>
           </thead>
           <tbody>

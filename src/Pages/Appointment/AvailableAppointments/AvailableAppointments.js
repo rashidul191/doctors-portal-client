@@ -12,7 +12,7 @@ const AvailableAppointments = ({ date }) => {
   const formattedDate = format(date, "PP");
 // react query
   const { data: services, isLoading, refetch } = useQuery(["available", formattedDate], () =>
-    fetch(`https://warm-springs-53250.herokuapp.com/available?date=${formattedDate}`).then((res) =>
+    fetch(`https://desolate-reef-87616.herokuapp.com/available?date=${formattedDate}`).then((res) =>
       res.json()
     )
   );
@@ -21,7 +21,7 @@ const AvailableAppointments = ({ date }) => {
   }
 
   // useEffect(() => {
-  //   fetch(`https://warm-springs-53250.herokuapp.com/available?date=${formattedDate}`)
+  //   fetch(`https://desolate-reef-87616.herokuapp.com/available?date=${formattedDate}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setServices(data);

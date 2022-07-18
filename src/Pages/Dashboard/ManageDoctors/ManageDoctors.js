@@ -12,7 +12,7 @@ const ManageDoctors = () => {
     isLoading,
     refetch,
   } = useQuery("doctors", () =>
-    fetch("http://localhost:5000/doctors", {
+    fetch("https://desolate-reef-87616.herokuapp.com/doctors", {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },

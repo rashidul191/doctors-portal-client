@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
   const [user] = useAuthState(auth);
-  const { _id, name, slots } = treatment;
+  const { _id, name, slots, price } = treatment;
   const formattedDate = format(date, "PP");
 
   const handleBooking = (event) => {
@@ -17,6 +17,7 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
       treatment: name,
       date: formattedDate,
       slot,
+      price,
       patientName: user?.displayName,
       patientEmail: user?.email,
       phoneNumber: event.target.phoneNumber.value,
@@ -24,7 +25,7 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
 
     console.log(booking);
 
-    fetch("http://localhost:5000/booking", {
+    fetch("https://desolate-reef-87616.herokuapp.com/booking", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(booking),
@@ -40,7 +41,7 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
           );
         }
         // to close the modal
-        refetch()
+        refetch();
         setTreatment(null);
       });
   };
@@ -77,6 +78,14 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
                 <option value={slot}>{slot}</option>
               ))}
             </select>
+            <input
+              name="price"
+              type="text"
+              value={`Price: ${price}`}
+              readOnly
+              className="input input-bordered w-full max-w-xs"
+              required
+            />
             <input
               name="userName"
               type="text"
