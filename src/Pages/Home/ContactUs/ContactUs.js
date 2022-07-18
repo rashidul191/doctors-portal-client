@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from 'react-toastify';
 import PrimaryButton from "../../Shared/PrimaryButton/PrimaryButton";
 import bgImg from "../../../assets/images/appointment.png"
 
@@ -9,8 +10,7 @@ const ContactUs = () => {
     const subject = event.target.subject.value;
     const message = event.target.message.value;
     if (email && subject && message) {
-      console.log(email, subject, message);
-      alert("message send successfully");
+      toast.success("message send successfully");
     }
   };
   return (

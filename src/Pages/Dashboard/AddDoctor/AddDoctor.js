@@ -32,7 +32,6 @@ const AddDoctor = () => {
   const imgStorageKey = `1b91428733543b6b75ad960c33573c1a`;
 
   const onSubmit = async (data) => {
-    // console.log(data);
     const image = data.image[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -45,7 +44,6 @@ const AddDoctor = () => {
       .then((result) => {
         if (result.success) {
           const imageUrl = result.data.url;
-          // console.log("imgbb: ", imageUrl);
           const doctor = {
             name: data.name,
             email: data.email,
@@ -63,7 +61,6 @@ const AddDoctor = () => {
           })
             .then((res) => res.json())
             .then((insertedData) => {
-              // console.log(insertedData);
               if (insertedData.insertedId) {
                 toast.success("Doctor added Successfully");
                 reset();

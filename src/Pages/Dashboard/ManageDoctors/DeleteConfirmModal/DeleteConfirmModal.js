@@ -13,7 +13,6 @@ const DeleteConfirmModal = ({deleteDoctor, refetch, setDeleteDoctor}) => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             if(data.deletedCount){
                 toast.success(`Doctor: ${name} is deleted.`)
                 setDeleteDoctor(null)

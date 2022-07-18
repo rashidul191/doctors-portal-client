@@ -10,9 +10,6 @@ const MyAppointments = () => {
   const navigate = useNavigate();
   const [user, loading] = useAuthState(auth);
   const [appointments, setAppointments] = useState([]);
-
-  // console.log(appointments)
-
   useEffect(() => {
     if (loading) {
       return <Loading></Loading>;
@@ -28,7 +25,6 @@ const MyAppointments = () => {
         }
       )
         .then((res) => {
-          console.log(res);
           if (res.status === 401 || res.status === 403) {
             signOut(auth);
             localStorage.removeItem("accessToken");
@@ -37,7 +33,6 @@ const MyAppointments = () => {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           setAppointments(data);
         });
     }

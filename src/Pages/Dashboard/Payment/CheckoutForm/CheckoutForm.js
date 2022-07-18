@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { toast } from "react-toastify";
 
 const CheckoutForm = ({ appointment }) => {
   const stripe = useStripe();
@@ -9,7 +10,6 @@ const CheckoutForm = ({ appointment }) => {
   const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  //   console.log(appointment)
   const { _id, price, patientName, patientEmail } = appointment;
   useEffect(() => {
     fetch("https://desolate-reef-87616.herokuapp.com/create-payment-intent", {
@@ -49,7 +49,8 @@ const CheckoutForm = ({ appointment }) => {
     });
     setCardError(error?.message || "");
     setSuccess("");
-    setProcessing(true)
+    setProcessing(true);
+    console.log(paymentMethod)
 
     const { paymentIntent, error: intentError } =
       await stripe.confirmCardPayment(clientSecret, {
@@ -63,32 +64,29 @@ const CheckoutForm = ({ appointment }) => {
       });
     if (intentError) {
       setCardError(intentError?.message);
-      setProcessing(false)
+      setProcessing(false);
     } else {
       setCardError("");
-      console.log(paymentIntent);
       setTransactionId(paymentIntent.id);
       setSuccess("Congrats! Your payment is completed.");
-
+      toast.success("Congrats! Your payment is completed.");
       // store payment on database
       const payment = {
         appointment: _id,
         transactionId: paymentIntent.id,
-      }
-       fetch(`https://desolate-reef-87616.herokuapp.com/booking/${_id}`,{
-        method:"PATCH",
+      };
+      fetch(`https://desolate-reef-87616.herokuapp.com/booking/${_id}`, {
+        method: "PATCH",
         headers: {
-            "content-type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-          body: JSON.stringify(payment),
-        
-       })
-       .then(res => res.json())
-       .then(data => {
-        setProcessing(false)
-        console.log(data)
-       })
+          "content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(payment),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setProcessing(false);
+        });
     }
   };
   return (
@@ -124,7 +122,8 @@ const CheckoutForm = ({ appointment }) => {
           <p>{success}</p>
 
           <p>
-            Your Transaction Id: <span className="text-orange-500">{transactionId}</span>
+            Your Transaction Id:{" "}
+            <span className="text-orange-500">{transactionId}</span>
           </p>
         </div>
       )}

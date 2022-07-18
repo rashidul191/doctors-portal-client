@@ -2,8 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const MyAppointment = ({ appointment, index }) => {
-  
-  const { _id, patientName, treatment, date, slot, price, paid, transactionId } = appointment;
+  const {
+    _id,
+    patientName,
+    treatment,
+    date,
+    slot,
+    price,
+    paid,
+    transactionId,
+  } = appointment;
 
   return (
     <tr>
@@ -20,13 +28,14 @@ const MyAppointment = ({ appointment, index }) => {
           </Link>
         ) : (
           <>
-          <span className="text-success">Paid</span>
-          <p>Transaction Id: <span className="text-success"> {transactionId}</span></p>
+            <span className="text-success">Paid</span>
+            <p>
+              Transaction Id:{" "}
+              <span className="text-success"> {transactionId}</span>
+            </p>
           </>
         )}
       </td>
-
-     
     </tr>
   );
 };

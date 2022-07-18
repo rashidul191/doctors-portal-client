@@ -23,8 +23,6 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
       phoneNumber: event.target.phoneNumber.value,
     };
 
-    console.log(booking);
-
     fetch("https://desolate-reef-87616.herokuapp.com/booking", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -32,7 +30,6 @@ const BookingModal = ({ date, treatment, setTreatment, refetch }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           toast.success(`Appointment is set ${formattedDate} at ${slot}`);
         } else {

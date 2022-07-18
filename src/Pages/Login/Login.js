@@ -27,14 +27,12 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     signInWithEmailAndPassword(data?.email, data?.password);
   };
   const [token] = useToken(user)
 
   const handleForgetPassword = async () => {
     const email = emailRef.current.value;
-    console.log("Email: ", email);
     if (email) {
       await sendPasswordResetEmail(email);
       toast.success("Sent email");
