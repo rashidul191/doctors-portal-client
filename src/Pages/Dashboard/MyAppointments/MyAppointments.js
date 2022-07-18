@@ -11,18 +11,24 @@ const MyAppointments = () => {
   const [user, loading] = useAuthState(auth);
   const [appointments, setAppointments] = useState([]);
 
+  // console.log(appointments)
+
   useEffect(() => {
     if (loading) {
       return <Loading></Loading>;
     }
     if (user) {
-      fetch(`https://desolate-reef-87616.herokuapp.com/booking?patient=${user.email}`, {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
+      fetch(
+        `https://desolate-reef-87616.herokuapp.com/booking?patientEmail=${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
         .then((res) => {
+          console.log(res);
           if (res.status === 401 || res.status === 403) {
             signOut(auth);
             localStorage.removeItem("accessToken");
@@ -31,11 +37,11 @@ const MyAppointments = () => {
           return res.json();
         })
         .then((data) => {
-          //   console.log(data);
+          console.log(data);
           setAppointments(data);
         });
     }
-  }, [user,loading,navigate]);
+  }, [user, loading, navigate]);
 
   return (
     <div>
