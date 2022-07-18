@@ -22,7 +22,7 @@ const DoctorsRow = ({ doctor, index , setDeleteDoctor}) => {
       <td>
         
 
-        <label onClick={()=> setDeleteDoctor(doctor)} for="delete-confirm-model" class="btn btn-error text-white">Delete</label>
+        <label onClick={()=> setDeleteDoctor(doctor)} for="delete-confirm-model" className="btn btn-error text-white">Delete</label>
 
       </td>
     </tr>
